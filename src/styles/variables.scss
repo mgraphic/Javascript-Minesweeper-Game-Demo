@@ -1,0 +1,25 @@
+$tile_size: 40px;
+
+$count_colors: (
+    one: #0c7eca,
+    two: #26bd00,
+    three: #ff593c,
+    four: #b000d3,
+);
+
+$main_background: #fff;
+$grid_background: #dcd6bc;
+$bomb_uncovered_background: #fd1b1b;
+
+$grid_border: 10px ridge #cecece;
+$tile_covered_border: 4px outset;
+$tile_uncovered_border: 4px inset;
+
+$font_family: 'Roboto Mono', monospace;
+$tile_font_size: 20px;
+$tile_text_shadow: 0 0 2px #fff;
+$tile_stroke_size: 1px;
+
+$digital_font_family: 'Digital', $font_family;
+$digital_font_size: 45px;
+$digital_font_color: #f00;

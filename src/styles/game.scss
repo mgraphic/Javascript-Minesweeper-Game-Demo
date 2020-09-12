@@ -1,0 +1,222 @@
+.container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: $main_background;
+}
+
+.gameboard {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+
+    .leaderbar {
+        box-sizing: content-box;
+        display: flex;
+        align-items: center;
+        border: $grid_border;
+        background: $grid_background;
+        width: 400px;
+        height: 50px;
+
+        & * {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            height: 100%;
+        }
+
+        .flags,
+        .timer {
+            flex: 100%;
+            font-family: $digital_font_family;
+            font-size: $digital_font_size;
+            color: $digital_font_color;
+            background-color: #000;
+            text-align: center;
+        }
+
+        .start {
+            width: 250px;
+            font-size: 30px;
+            border: $tile_covered_border;
+            cursor: pointer;
+
+            &:hover {
+                background-color: darken($grid_background, 5%);
+            }
+
+            &:active {
+                background-color: lighten($grid_background, 5%);
+            }
+        }
+    }
+
+    .result {
+        position: absolute;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        top: 10px;
+        left: 10px;
+        margin-top: 70px;
+        background-color: rgba(0, 0, 0, 0.6);
+        text-align: center;
+
+        &.hide {
+            display: none;
+        }
+
+        div {
+            animation: blinker 1.5s linear infinite;
+            font-family: 'Arial Black';
+            text-transform: uppercase;
+
+            &.win {
+                font-size: 8em;
+                color: #0f0;
+                -webkit-text-stroke: 3px #000;
+            }
+
+            &.lose {
+                font-size: 7em;
+                color: #f00;
+                -webkit-text-stroke: 3px #fff;
+            }
+        }
+    }
+
+    .grid {
+        /* Width and height are dynamically set */
+        display: flex;
+        flex-wrap: wrap;
+        border: $grid_border;
+        box-sizing: content-box;
+        background: $grid_background;
+
+        div {
+            box-sizing: border-box;
+        }
+    }
+
+    .settings {
+        margin-top: 15px;
+        width: 150px;
+        padding: 5px;
+        font-size: 12px;
+        background: $grid_background;
+        border: $tile_covered_border;
+        cursor: pointer;
+        text-align: center;
+        font-family: $font_family;
+        color: #777;
+
+        &:hover {
+            background-color: darken($grid_background, 5%);
+        }
+
+        &:active {
+            background-color: lighten($grid_background, 5%);
+        }
+    }
+
+    div {
+    }
+    .tile {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: $font_family;
+        font-size: $tile_font_size;
+        font-weight: bolder;
+        text-shadow: $tile_text_shadow;
+        border: $tile_covered_border;
+        width: $tile_size;
+        height: $tile_size;
+
+        cursor: pointer;
+        &:hover {
+            background-color: darken($grid_background, 5%);
+        }
+        &:active {
+            background-color: lighten($grid_background, 5%);
+        }
+
+        &.bomb.checked {
+            background: $bomb_uncovered_background;
+        }
+    }
+
+    .checked {
+        border: $tile_uncovered_border;
+        cursor: default;
+
+        &:hover,
+        &:active {
+            background-color: inherit;
+        }
+    }
+
+    .count {
+        &-one {
+            color: map-get($count_colors, one);
+            -webkit-text-stroke: $tile_stroke_size map-get($count_colors, one);
+        }
+        &-two {
+            color: map-get($count_colors, two);
+            -webkit-text-stroke: $tile_stroke_size map-get($count_colors, two);
+        }
+        &-three {
+            color: map-get($count_colors, three);
+            -webkit-text-stroke: $tile_stroke_size map-get($count_colors, three);
+        }
+        &-four,
+        &-five,
+        &-six,
+        &-seven,
+        &-eight {
+            color: map-get($count_colors, four);
+            -webkit-text-stroke: $tile_stroke_size map-get($count_colors, four);
+        }
+    }
+
+    .shake {
+        animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+
+@keyframes shake {
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}

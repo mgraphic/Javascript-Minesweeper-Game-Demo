@@ -7,6 +7,8 @@
 A modified Minesweeper game based from Traversy Media.
 https://www.youtube.com/watch?v=W0No1JDc6vE&t=172s
 
+Working Demo: http://kmarshall.com/minesweeper/
+
 ### Installation
 
 ```

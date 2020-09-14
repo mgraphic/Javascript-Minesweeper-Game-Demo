@@ -11,7 +11,7 @@ $main_background: #fff;
 $grid_background: #dcd6bc;
 $bomb_uncovered_background: #fd1b1b;
 
-$grid_border: 10px ridge #cecece;
+$grid_border: 4px outset #cecece;
 $tile_covered_border: 4px outset;
 $tile_uncovered_border: 4px inset;
 
@@ -23,3 +23,8 @@ $tile_stroke_size: 1px;
 $digital_font_family: 'Digital', $font_family;
 $digital_font_size: 45px;
 $digital_font_color: #f00;
+
+$desktop: only screen and
+    (
+        min-width: 1200px,
+    );

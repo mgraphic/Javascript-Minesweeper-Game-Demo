@@ -1,6 +1,6 @@
 export class Config {
     /**
-     * Default width and height of grid
+     * Default width and height of grid (desktop mode)
      */
     static DEFAULT_GRID_COUNT_HORIZONTAL = 10;
 
@@ -16,6 +16,18 @@ export class Config {
      * Update this if the css changes
      */
     static TILE_SIZE = 40;
+
+    /**
+     * Height of the leaderboard (in pixels)
+     * Update this if the css changes
+     */
+    static LEADERBOARD_HEIGHT = 50;
+
+    /**
+     * Thickness of the grid and leaderboard border (in pixels)
+     * Update this if the css changes
+     */
+    static BORDER_THICKNESS = 4;
 
     /**
      * Emoji's for the flag and bomb elements

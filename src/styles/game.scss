@@ -63,9 +63,9 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        top: 10px;
-        left: 10px;
-        margin-top: 70px;
+        top: 2px;
+        left: 2px;
+        margin-top: 58px;
         background-color: rgba(0, 0, 0, 0.6);
         text-align: center;
 
@@ -75,19 +75,28 @@
 
         div {
             animation: blinker 1.5s linear infinite;
-            font-family: 'Arial Black';
+            font-family: 'Black Ops One', 'Arial Black', Arial, Helvetica,
+                sans-serif;
             text-transform: uppercase;
 
             &.win {
-                font-size: 8em;
+                font-size: 25vmin;
                 color: #0f0;
                 -webkit-text-stroke: 3px #000;
+
+                @media #{$desktop} {
+                    font-size: 8em;
+                }
             }
 
             &.lose {
-                font-size: 7em;
+                font-size: 25vmin;
                 color: #f00;
                 -webkit-text-stroke: 3px #fff;
+
+                @media #{$desktop} {
+                    font-size: 7em;
+                }
             }
         }
     }
@@ -126,8 +135,6 @@
         }
     }
 
-    div {
-    }
     .tile {
         display: flex;
         justify-content: center;

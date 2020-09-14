@@ -1,4 +1,5 @@
 import '../styles/index.scss';
+import Browser from 'browser-detect';
 import { Config } from './config';
 
 export class Game {
@@ -18,6 +19,7 @@ export class Game {
     gridElement;
     resultElement;
     settingsElement;
+    isMobile;
     gameOver;
     tiles;
     flags;
@@ -27,9 +29,34 @@ export class Game {
     timer;
 
     constructor(gameBoard) {
+        const browser = Browser();
+        this.isMobile = !!browser.mobile;
+
         this.gameBoardElement = gameBoard;
         this.constructElements();
         this.setListeners();
+        this.setDefaults();
+    }
+
+    setDefaults() {
+        if (this.isMobile) {
+            this.width = Math.floor(
+                (document.documentElement.clientWidth -
+                    Config.BORDER_THICKNESS * 2) /
+                    Config.TILE_SIZE
+            );
+
+            this.height = Math.floor(
+                (document.documentElement.clientHeight -
+                    (Config.BORDER_THICKNESS * 4 + Config.LEADERBOARD_HEIGHT)) /
+                    Config.TILE_SIZE
+            );
+
+            const tiles = this.width * this.height;
+            this.bombCount = Math.floor(tiles * 20 * 0.01);
+
+            return;
+        }
 
         this.width = Config.DEFAULT_GRID_COUNT_HORIZONTAL;
         this.height = Config.DEFAULT_GRID_COUNT_VERTICAL;
@@ -39,39 +66,45 @@ export class Game {
     setListeners() {
         let clickTimer;
 
-        window.addEventListener('mousedown', ($event) => {
-            const element = $event.target;
-            if (!this.gameOver && element.classList.contains('tile')) {
-                if (!this.timer) {
-                    this.startTimer();
+        window.addEventListener(
+            this.isMobile ? 'touchstart' : 'mousedown',
+            ($event) => {
+                const element = $event.target;
+                if (!this.gameOver && element.classList.contains('tile')) {
+                    if (!this.timer) {
+                        this.startTimer();
+                    }
+
+                    this.startElement.innerHTML = Config.START_EMOJI_ACTIVE;
+
+                    if (!this.isMobile) {
+                        clickTimer = setTimeout(() => {
+                            const tile = this.tiles[
+                                element.getAttribute('data-tile-id')
+                            ];
+
+                            tile.skip = true;
+                            this.toggleFlag(tile);
+                        }, 400);
+                    }
+                }
+            }
+        );
+
+        window.addEventListener(
+            this.isMobile ? 'touchend' : 'mouseup',
+            ($event) => {
+                const element = $event.target;
+
+                if (!this.gameOver && element.classList.contains('tile')) {
+                    this.startElement.innerHTML = Config.START_EMOJI_GOOD;
                 }
 
-                this.startElement.innerHTML = Config.START_EMOJI_ACTIVE;
-
-                clickTimer = setTimeout(() => {
-                    const tile = this.tiles[
-                        element.getAttribute('data-tile-id')
-                    ];
-
-                    tile.skip = true;
-                    this.toggleFlag(tile);
-
-                    clickTimer = null;
-                }, 400);
+                if (clickTimer) {
+                    clearTimeout(clickTimer);
+                }
             }
-        });
-
-        window.addEventListener('mouseup', ($event) => {
-            const element = $event.target;
-
-            if (!this.gameOver && element.classList.contains('tile')) {
-                this.startElement.innerHTML = Config.START_EMOJI_GOOD;
-            }
-
-            if (clickTimer) {
-                clearTimeout(clickTimer);
-            }
-        });
+        );
     }
 
     constructElements() {
@@ -98,12 +131,14 @@ export class Game {
         this.resultElement = this.newElement('result');
         this.gameBoardElement.appendChild(this.resultElement);
 
-        this.settingsElement = this.newElement('settings');
-        this.settingsElement.innerHTML = 'Settings';
-        this.settingsElement.addEventListener('click', () => {
-            this.settings();
-        });
-        this.gameBoardElement.appendChild(this.settingsElement);
+        if (!this.isMobile) {
+            this.settingsElement = this.newElement('settings');
+            this.settingsElement.innerHTML = 'Settings';
+            this.settingsElement.addEventListener('click', () => {
+                this.settings();
+            });
+            this.gameBoardElement.appendChild(this.settingsElement);
+        }
     }
 
     run() {
@@ -136,7 +171,7 @@ export class Game {
             this.bombCount = count;
         } else {
             const tiles = this.width * this.height;
-            this.bombCount = Math.floor((tiles * 20) / tiles);
+            this.bombCount = Math.floor(tiles * 20 * 0.01);
         }
 
         this.run();

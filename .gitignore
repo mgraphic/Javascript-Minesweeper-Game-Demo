@@ -1,7 +1,7 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # APP SPECIFIC:
-snake-game.code-workspace
+minesweeper-game.code-workspace
 
 # compiled output
 /dist
